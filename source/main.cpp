@@ -33,7 +33,7 @@ int main ()
                     if (number_keys <= 0)
                         number_keys = 0;
 
-                    std::cout << "Number keys: " << number_keys << std::endl;
+                    std::cout << number_keys << " ";
                     break;
                 }
                 default:
