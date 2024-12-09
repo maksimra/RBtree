@@ -27,6 +27,20 @@ target_link_libraries(
 
 target_include_directories (tree_tests PUBLIC ${PROJECT_SOURCE_DIR})
 
+add_executable(
+        speed_tests
+        ../source/compare.cpp
+        speed_test.cpp
+)
+
+target_link_libraries(
+        speed_tests
+        GTest::gtest_main
+)
+
+target_include_directories (speed_tests PUBLIC ${PROJECT_SOURCE_DIR})
+
 include (GoogleTest)
 
 gtest_discover_tests (tree_tests)
+gtest_discover_tests (speed_tests)
