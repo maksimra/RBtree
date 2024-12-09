@@ -38,7 +38,6 @@ namespace Trees
     class SearchTree
     {
         Node<KeyT> nil {INT_MAX, 0};
-        Node<KeyT>* root_ = &nil;
         Comp compare;
 
         size_t get_number_of_smaller (const Node<KeyT>* node) const
@@ -57,6 +56,16 @@ namespace Trees
             }
 
             return less_than;
+        }
+
+        static void fixup_capacity (Node<KeyT>* node, Node<KeyT>* nil_ptr)
+        {
+            Node<KeyT>* cur_node = node;
+            while (cur_node->prnt != nil_ptr)
+            {
+                cur_node = cur_node->prnt;
+                cur_node->capacity--;
+            }
         }
 
         SearchTree& assign (const SearchTree& rhs)
@@ -105,6 +114,7 @@ namespace Trees
         }
 
     public:
+        Node<KeyT>* root_ = &nil;
         SearchTree (Comp compare_): compare (compare_) {};
         SearchTree (const SearchTree& rhs)
         {
@@ -150,8 +160,15 @@ namespace Trees
 
             while (cur_node != &nil)
             {
+                if (compare (key, cur_node->key) == 0)
+                {
+                    delete new_node;
+                    fixup_capacity (cur_node, &nil);
+                    return;
+                }
+
                 parrent_node = cur_node;
-                cur_node->capacity += 1;
+                cur_node->capacity++;
 
                 if (compare (key, cur_node->key) < 0)
                 {
@@ -352,7 +369,6 @@ namespace Trees
 
         int distance (Node<KeyT>* first, Node<KeyT>* second) const
         {
-
             if (first != &nil && second != &nil)
             {
                 size_t less_than_first  = get_number_of_smaller (first);
@@ -361,6 +377,35 @@ namespace Trees
                 return less_than_second - less_than_first;
             }
             return -1;
+        }
+
+        void ak_tree_print (Trees::Node<int>* node, int* n_space)
+        {
+            printf_str (node, *n_space);
+            (*n_space) += 4;
+
+            printing_branches (node->left, n_space);
+            printing_branches (node->right, n_space);
+
+            printf (")\n");
+        }
+
+        void printf_str (Trees::Node<int>* node, int n_space)
+        {
+            printf ("%*c(\"%d\"\n", n_space, ' ', node->key);
+        }
+
+        void printing_branches (Trees::Node<int>* node, int* n_space)
+        {
+            if (node != &nil)
+            {
+                ak_tree_print (node, n_space);
+            }
+            else
+            {
+                printf ("_");
+                (*n_space) -= 4;
+            }
         }
 
     };
