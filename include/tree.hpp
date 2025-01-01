@@ -72,7 +72,8 @@ namespace Trees
         Node<KeyT>* get_copy_tree (const SearchTree& rhs)
         {
             std::queue<std::pair<Node<KeyT>*, Node<KeyT>*>> queue;
-            Node<KeyT>* tmp_root = new Node<KeyT> (*(rhs.root_));
+            Node<KeyT>* tmp_root = &nil;
+            tmp_root = new Node<KeyT> (*(rhs.root_));
             tmp_root->prnt = &nil;
             queue.push ({rhs.root_, tmp_root});
 
@@ -110,35 +111,14 @@ namespace Trees
             return tmp_root;
         }
 
-    public:
-        SearchTree (Comp compare_): compare (compare_) {};
-        SearchTree (const SearchTree& rhs) : compare (rhs.compare)
-        {
-            if (rhs.root_ == &(rhs.nil))
-                return;
-
-            Node<KeyT>* copy_tree = get_copy_tree (rhs);
-            root_ = copy_tree;
-        }
-
-        SearchTree& operator= (const SearchTree& rhs)
-        {
-            this->~SearchTree ();
-
-            Node<KeyT>* copy_tree = get_copy_tree (rhs);
-            root_ = copy_tree;
-
-            return *this;
-        }
-
-        ~SearchTree ()
+        void delete_tree(Node<KeyT>* root)
         {
             if (root_ == &nil)
                 return;
 
             std::queue<Node<KeyT>*> queue;
 
-            queue.push (root_);
+            queue.push (root);
             while (!queue.empty ())
             {
                 Node<KeyT>* node = queue.front ();
@@ -151,6 +131,55 @@ namespace Trees
 
                 delete node;
             }
+        }
+
+    public:
+        SearchTree (Comp compare_): compare (compare_) {};
+        SearchTree (const SearchTree& rhs) : compare (rhs.compare)
+        {
+            if (rhs.root_ == &(rhs.nil))
+                return;
+
+            Node<KeyT>* copy_tree = &nil;
+
+            try
+            {
+                copy_tree = get_copy_tree (rhs);
+            }
+            catch (std::bad_alloc& e)
+            {
+                std::cerr << e.what() << std::endl;
+                delete_tree(copy_tree);
+                return;
+            }
+            root_ = copy_tree;
+        }
+
+        SearchTree& operator= (const SearchTree& rhs)
+        {
+            this->~SearchTree ();
+
+            Node<KeyT>* copy_tree = &nil;
+
+            try
+            {
+                copy_tree = get_copy_tree (rhs);
+            }
+            catch (std::bad_alloc& e)
+            {
+                std::cerr << e.what() << std::endl;
+                delete_tree(copy_tree);
+                return *this;
+            }
+            compare = rhs.compare;
+            root_ = copy_tree;
+
+            return *this;
+        }
+
+        ~SearchTree ()
+        {
+            delete_tree(root_);
         }
 
 
