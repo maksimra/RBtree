@@ -23,7 +23,7 @@ template <typename KeyT> class Node
     size_t capacity;
     NodeColor color = BLACK;
 
-    Node(KeyT key_ = 0, size_t capacity_ = 1) : key(key_), capacity(capacity_)
+    Node(KeyT key_, size_t capacity_ = 1) : key(key_), capacity(capacity_)
     {
     }
     Node(const Node &rhs)
@@ -36,7 +36,7 @@ template <typename KeyT> class Node
 
 template <typename KeyT, typename Comp> class SearchTree
 {
-    inline static Node<KeyT> nil{};
+    inline static Node<KeyT> nil{0, 0};
     Node<KeyT> *root_ = &nil;
     Comp compare;
 
