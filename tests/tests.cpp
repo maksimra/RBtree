@@ -3,9 +3,9 @@
 #include <iostream>
 #include <set>
 #include <climits>
-#include "../include/compare.hpp"
-#include "../include/tree.hpp"
-#include "../include/getting_value.hpp"
+#include "tree.hpp"
+#include "compare.hpp"
+#include "getting_value.hpp"
 
 template <typename Comp>
 void RBtree_test (std::fstream& test_file, std::vector<size_t>& num_keys_vec, Comp compare)
@@ -119,6 +119,7 @@ TEST (EndToEnd, CheckNumberKeys)
         {
             if (it == vec_end || *it != ref_num_keys)
             {
+                std::cerr << "\n*it and ref_num = " << *it << " " << ref_num_keys << std::endl;
                 throw std::runtime_error ("Fail test");
             }
         }

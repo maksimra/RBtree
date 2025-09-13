@@ -5,4 +5,5 @@ add_executable (RBtree
 
 target_link_libraries (RBtree PRIVATE rb_tree_lib)
 
-target_include_directories (RBtree PUBLIC ${PROJECT_SOURCE_DIR})
+target_include_directories (RBtree PUBLIC ${PROJECT_SOURCE_DIR}
+                                          ${PROJECT_SOURCE_DIR}/include)

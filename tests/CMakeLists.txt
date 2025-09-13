@@ -25,7 +25,8 @@ target_link_libraries(
         GTest::gtest_main
 )
 
-target_include_directories (tree_tests PUBLIC ${PROJECT_SOURCE_DIR})
+target_include_directories (tree_tests PUBLIC ${PROJECT_SOURCE_DIR}
+                                              ${PROJECT_SOURCE_DIR}/include)
 
 add_executable(
         speed_tests
@@ -38,7 +39,8 @@ target_link_libraries(
         GTest::gtest_main
 )
 
-target_include_directories (speed_tests PUBLIC ${PROJECT_SOURCE_DIR})
+target_include_directories (speed_tests PUBLIC ${PROJECT_SOURCE_DIR}
+                                               ../include)
 
 include (GoogleTest)
 
