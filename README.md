@@ -42,9 +42,14 @@ cmake --build build
 2) To run the project:
 
 ```
-build/source/RBtree
+./build/source/RBtree
 ```
 *Tests*
 ```
-build/tests/tree_tests
+./build/tests/${test_name}
 ```
+Tests:
+- RBtreeBenchmark
+- RBtreeKeyTest
+- StdSetBenchmark
+- StdSetKeyTes
