@@ -161,7 +161,7 @@ template <typename KeyT, typename Comp> class SearchTree
         rhs.root_ = &nil;
     }
 
-    SearchTree &operator=(SearchTree &&rhs)
+    SearchTree &operator=(SearchTree &&rhs) noexcept
     {
         if (this != &rhs)
         {

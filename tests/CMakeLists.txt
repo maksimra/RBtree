@@ -14,35 +14,77 @@ endif ()
 
 enable_testing ()
 
+#----RBtreeKeyTest-------------------------------
+
 add_executable(
-        tree_tests
+        RBtreeKeyTest
+        RBtreeKeyTest.cpp
         ../source/compare.cpp
-        tests.cpp
 )
 
 target_link_libraries(
-        tree_tests
+        RBtreeKeyTest
         GTest::gtest_main
 )
 
-target_include_directories (tree_tests PUBLIC ${PROJECT_SOURCE_DIR}
-                                              ${PROJECT_SOURCE_DIR}/include)
+target_include_directories (RBtreeKeyTest PUBLIC ${PROJECT_SOURCE_DIR}
+                                                 ${PROJECT_SOURCE_DIR}/include)
+
+gtest_discover_tests (RBtreeKeyTest)
+
+#----StdSetKeyTest-------------------------------
 
 add_executable(
-        speed_tests
-        ../source/compare.cpp
-        speed_test.cpp
+        StdSetKeyTest
+        StdSetKeyTest.cpp
 )
 
 target_link_libraries(
-        speed_tests
+        StdSetKeyTest
         GTest::gtest_main
 )
 
-target_include_directories (speed_tests PUBLIC ${PROJECT_SOURCE_DIR}
-                                               ../include)
+target_include_directories (StdSetKeyTest PUBLIC ${PROJECT_SOURCE_DIR}
+                                                 ${PROJECT_SOURCE_DIR}/include)
+
+gtest_discover_tests (StdSetKeyTest)
+
+#----RBtreeBenchmark-----------------------------
+
+add_executable(
+        RBtreeBenchmark
+        RBtreeBenchmark.cpp
+        ../source/compare.cpp
+)
+
+target_link_libraries(
+        RBtreeBenchmark
+        GTest::gtest_main
+)
+
+target_include_directories (RBtreeBenchmark PUBLIC ${PROJECT_SOURCE_DIR}
+                                                   ${PROJECT_SOURCE_DIR}/include)
+
+gtest_discover_tests (RBtreeBenchmark)
+
+#----StdSetBenchmark-----------------------------
+
+add_executable(
+        StdSetBenchmark
+        StdSetBenchmark.cpp
+)
+
+target_link_libraries(
+        StdSetBenchmark
+        GTest::gtest_main
+)
+
+target_include_directories (StdSetBenchmark PUBLIC ${PROJECT_SOURCE_DIR}
+                                                   ${PROJECT_SOURCE_DIR}/include)
+
+gtest_discover_tests (StdSetBenchmark)
+
+#------------------------------------------------
 
 include (GoogleTest)
 
-gtest_discover_tests (tree_tests)
-gtest_discover_tests (speed_tests)

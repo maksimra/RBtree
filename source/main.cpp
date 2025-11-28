@@ -1,8 +1,8 @@
-#include "compare.hpp"
-#include "getting_value.hpp"
-#include "tree.hpp"
 #include <cstdio>
 #include <iostream>
+#include "compare_types.hpp"
+#include "getting_value.hpp"
+#include "tree.hpp"
 
 int main()
 {
@@ -30,7 +30,7 @@ int main()
                 int number_keys = tree.distance(low, up) + 1;
                 if (number_keys <= 0)
                     number_keys = 0;
-                std::cout << number_keys << std::endl;
+                std::cout << number_keys << " ";
                 break;
             }
             default:
@@ -41,8 +41,7 @@ int main()
                 break;
             }
         }
-        Trees::SearchTree<int, int (*)(int, int)> sec_tree(compare_int); // seg fault...
-        sec_tree = tree;
+        std::cout << std::endl;
     }
     catch (const std::runtime_error &error)
     {

@@ -1,4 +1,4 @@
-#include "../include/compare.hpp"
+#include "compare_types.hpp"
 
 int compare_int(int value1, int value2)
 {
