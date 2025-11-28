@@ -21,7 +21,7 @@ jobs:
       run: cmake -S . -B build -DCMAKE_CXX_COMPILER=g++-12 -DCMAKE_BUILD_TYPE=Release
     - name: CMake release build
       run: cmake --build build
-    - name: StdSetKeyTes
-      run: build/tests/StdSetKeyTes
+    - name: StdSetKeyTest
+      run: build/tests/StdSetKeyTest
     - name: RBtreeKeyTest
       run: build/tests/RBtreeKeyTest
