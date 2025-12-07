@@ -5,61 +5,58 @@
 #include "getting_value.hpp"
 #include "compare_types.hpp"
 
-template <typename Comp> void RBtree_speed_test(std::fstream &test_file, Comp compare)
+TEST(RBtree, Benchmark)
 {
-    Trees::SearchTree<int, Comp> tree(compare);
+    double time = 0;
+
+    Trees::SearchTree<int, int (*)(int, int)> tree(compare_int);
     int value1 = 0, value2 = 0;
     char key_symbol = 0;
     int key = 0;
-
-    while (test_file >> key_symbol)
+    while (std::cin >> key_symbol)
     {
         switch (key_symbol)
         {
-        case 'k':
-            get_smth_from_istream(&key, test_file);
+        case 'k': {
+            get_smth_from_istream(&key, std::cin);
+
+            //-bench-start-----------------------
+            auto start{std::chrono::steady_clock::now()};
+
             tree.insert(key);
+
+            auto end{std::chrono::steady_clock::now()};
+            std::chrono::duration<double> elapsed_seconds{end - start};
+            time += elapsed_seconds.count();
+            //-bench-end-------------------------
             break;
+        }
         case 'q': {
-            get_smth_from_istream(&value1, test_file);
-            get_smth_from_istream(&value2, test_file);
+            get_smth_from_istream(&value1, std::cin);
+            get_smth_from_istream(&value2, std::cin);
+
+            //-bench-start-----------------------
+            auto start{std::chrono::steady_clock::now()};
 
             Trees::Node<int> *low = tree.lower_bound(value1);
             Trees::Node<int> *up = tree.upper_bound(value2);
-
             int number_keys = tree.distance(low, up) + 1;
 
+            auto end{std::chrono::steady_clock::now()};
+            std::chrono::duration<double> elapsed_seconds{end - start};
+            time += elapsed_seconds.count();
+            //-bench-end-------------------------
             break;
         }
         default:
             std::cerr << "Input error" << std::endl;
         }
-    }
-}
-
-TEST(RBtree, Benchmark)
-{
-    const int number_tests = 10;
-
-    for (int test_number = 1; test_number <= number_tests; ++test_number)
-    {
-        std::cout << test_number << " Test" << std::endl;
-
-        std::string test_file_name = "tests/test_files/" + std::to_string(test_number) + "test.txt";
-        std::fstream test_file(test_file_name);
-        if (!test_file.is_open())
+        if (std::cin.peek() == '\n')
         {
-            throw std::runtime_error("Failed to open file " + std::string(test_file_name));
+            break;
         }
-
-        auto start{std::chrono::steady_clock::now()};
-        RBtree_speed_test(test_file, compare_int);
-        auto end{std::chrono::steady_clock::now()};
-        std::chrono::duration<double> elapsed_seconds{end - start};
-        std::cout << "RBtree time = " << elapsed_seconds.count() << std::endl;
-
-        test_file.close();
     }
+    std::cout << "RBTree time: " << time << std::endl;
 }
 
 int main(int argc, char **argv) 
